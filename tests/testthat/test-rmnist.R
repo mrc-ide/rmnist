@@ -50,6 +50,7 @@ test_that("training data set", {
 })
 
 test_that("behaviour when missing", {
+  skip_on_travis()
   oo <- options("rmnist.cache_dir" = tempfile())
   on.exit(options(oo))
   expect_error(load_mnist(FALSE), "Please run download_mnist")
