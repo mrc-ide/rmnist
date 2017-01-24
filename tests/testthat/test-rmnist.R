@@ -1,5 +1,13 @@
 context("rmnist")
 
+test_that("fetch", {
+  if (!has_images()) {
+    expect_message(download_mnist(), "Downloading MNIST")
+  }
+  expect_silent(download_mnist())
+  expect_message(download_mnist(TRUE), "MNIST images already found")
+})
+
 test_that("data", {
   d <- load_mnist(FALSE)
   expect_is(d, "mnist")
@@ -33,4 +41,10 @@ test_that("s3", {
   expect_output(print(digit, TRUE), "@", fixed = TRUE)
 
   expect_equal(as.integer(digit), attr(digit, "label"))
+})
+
+test_that("behaviour when missing", {
+  oo <- options("rmnist.cache_dir" = tempfile())
+  on.exit(options(oo))
+  expect_error(load_mnist(FALSE), "Please run download_mnist")
 })

@@ -73,7 +73,7 @@ download_mnist <- function(verbose = FALSE, quiet = FALSE) {
       download_file(file.path(URL, f), file.path(path, f), quiet = quiet)
     }
   } else if (verbose) {
-    message("MNIST images already found at ", cache_dir())
+    message(sprintf("MNIST images already found at '%s'", cache_dir()))
   }
 }
 
@@ -135,7 +135,9 @@ download_file <- function(url, dest, ...) {
     stop("Download failed with code ", status)
   }
   ok <- suppressWarnings(file.rename(tmp, dest))
-  if (!ok) {
+  if (ok) {
+    on.exit()
+  } else {
     ## Linux
     ok <- file.copy(tmp, dest, overwrite = TRUE)
     if (!ok) {
