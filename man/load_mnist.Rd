@@ -4,11 +4,12 @@
 \alias{load_mnist}
 \title{Load the MNIST images}
 \usage{
-load_mnist(train, download_if_missing = FALSE)
+load_mnist(train = FALSE, download_if_missing = FALSE)
 }
 \arguments{
 \item{train}{Logical, indicating if the training data set should
-be loaded.  If \code{FALSE} then the "t10k" set is loaded.}
+be loaded.  If \code{FALSE} then the "t10k" set is loaded.  By
+default, the smaller file is loaded.}
 
 \item{download_if_missing}{Logical, indicating if the images
 should be downloaded if not present.  See

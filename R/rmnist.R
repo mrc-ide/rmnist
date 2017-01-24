@@ -13,7 +13,8 @@
 ##' @title Load the MNIST images
 ##'
 ##' @param train Logical, indicating if the training data set should
-##'   be loaded.  If \code{FALSE} then the "t10k" set is loaded.
+##'   be loaded.  If \code{FALSE} then the "t10k" set is loaded.  By
+##'   default, the smaller file is loaded.
 ##'
 ##' @param download_if_missing Logical, indicating if the images
 ##'   should be downloaded if not present.  See
@@ -29,7 +30,7 @@
 ##' x
 ##' print(x, TRUE)
 ##' plot(x)
-load_mnist <- function(train, download_if_missing = FALSE) {
+load_mnist <- function(train = FALSE, download_if_missing = FALSE) {
   key <- if (train) "train" else "t10k"
   if (!exists(key, cache)) {
     if (!has_images()) {
