@@ -20,6 +20,7 @@ test_that("s3", {
   expect_equal(length(dsub), 3L)
 
   expect_output(print(dsub), "<mnist object", fixed = TRUE)
+  expect_equal(as.integer(dsub), dsub$label)
 
   digit <- dsub[[2]]
   expect_equal(digit, d[[2]])
@@ -30,4 +31,6 @@ test_that("s3", {
 
   expect_output(print(digit), "<mnist digit", fixed = TRUE)
   expect_output(print(digit, TRUE), "@", fixed = TRUE)
+
+  expect_equal(as.integer(digit), attr(digit, "label"))
 })

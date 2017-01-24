@@ -2,7 +2,11 @@
 
 S3method("[",mnist)
 S3method("[[",mnist)
+S3method(as.integer,mnist)
+S3method(as.integer,mnist_digit)
 S3method(format,mnist_digit)
 S3method(length,mnist)
 S3method(print,mnist)
 S3method(print,mnist_digit)
+export(download_mnist)
+export(load_mnist)

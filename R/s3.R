@@ -30,6 +30,11 @@ print.mnist <- function(x, ...) {
 }
 
 ##' @export
+as.integer.mnist <- function(x, ...) {
+  x$label
+}
+
+##' @export
 print.mnist_digit <- function(x, show_digit = FALSE, ...) {
   cat(sprintf("<mnist digit (%d)>\n", attr(x, "label")))
   if (show_digit) {
@@ -46,4 +51,9 @@ format.mnist_digit <- function(x, ...) {
   cols <- c(" ", ".", ":", "-", "=", "+", "*", "#", "%", "@")
   i <- findInterval(tx, seq(0, 255, length.out = length(cols)))
   apply(array(cols[i], dim(tx)), 1, paste, collapse = "")
+}
+
+##' @export
+as.integer.mnist_digit <- function(x, ...) {
+  attr(x, "label")
 }

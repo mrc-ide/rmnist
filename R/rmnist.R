@@ -1,11 +1,82 @@
-## Loading all the images at once is fairly slow, so it would be best
-## to avoid doing that and just load them on demand.  We can memoise
-## this process so that it's fast within a single session without
-## hitting the disk.  To do this we should read the index file?
+##' Load the MNIST images.  There are two sets "train" and "t10k"; the
+##' \code{train} argument switches between these.  The actual images
+##' are not shipped with the package as they are ~11MB.  Instead these
+##' can be downloaded with \code{download_mnist} or by passing
+##' \code{download_if_missing = TRUE} to this function.
+##'
+##' The first time within a session that the images are loaded, the
+##' loading process may be slow as the files are read from disk (this
+##' is particularly true for the "train = TRUE" data set, which is the
+##' larger of the two).  Subsequent loads will be much faster though,
+##' as the processed images are cached within a session.
+##'
+##' @title Load the MNIST images
+##'
+##' @param train Logical, indicating if the training data set should
+##'   be loaded.  If \code{FALSE} then the "t10k" set is loaded.
+##'
+##' @param download_if_missing Logical, indicating if the images
+##'   should be downloaded if not present.  See
+##'   \code{\link{download_mnist}} for details about the downloading
+##'   and where files will be stored.
+##'
+##' @export
+##' @examples
+##' mnist <- load_mnist(FALSE)
+##' mnist
+load_mnist <- function(train, download_if_missing = FALSE) {
+  key <- if (train) "train" else "t10k"
+  if (!exists(key, cache)) {
+    if (!has_images()) {
+      if (download_if_missing) {
+        download_mnist()
+      } else {
+        stop("Please run download_mnist() to download files first")
+      }
+    }
+    cache[[key]] <- read_mnist(train)
+  }
+  cache[[key]]
+}
+
+##' Download the MNIST images.  Because these about 11MB they do not
+##' ship with the package, but are downloaded as needed.
+##'
+##' The downloaded images will be stored on your system by default at
+##' the directory given by \code{rappdirs::user_cache_dir("rmnist")}.
+##' Alternatively, you can specify your own location for the images by
+##' setting the option \code{rmnist.cache_dir} (e.g.,
+##' \code{rmnist.cache_dir = tempfile()}).  To see what value will be
+##' used, you can run the (unexported) function
+##' \code{rmnist:::cache_dir()}.
+##'
+##' @title Download the MNIST images
+##'
+##' @param verbose Print a message even if the images are already found
+##'
+##' @param quiet Passed through to \code{download.file} to suppress
+##'   the download progress bar.
+##'
+##' @export
+download_mnist <- function(verbose = FALSE, quiet = FALSE) {
+  if (!has_images()) {
+    urls <- file.path(URL, FILENAMES)
+    path <- cache_dir()
+    dir.create(path, FALSE, TRUE)
+    message("Downloading MNIST images to ", path)
+    for (f in FILENAMES) {
+      download_file(file.path(URL, f), file.path(path, f), quiet = quiet)
+    }
+  } else if (verbose) {
+    message("MNIST images already found at ", cache_dir())
+  }
+}
+
 read_mnist_label_file <- function(filename) {
   con <- gzfile(filename, "rb")
   on.exit(close(con))
   n <- readBin(con, "integer", n = 2L, size = 4L, endian = "big")
+  stopifnot(n[[1L]] == 2049L)
   as.integer(readBin(con, raw(), n[[2L]]))
 }
 
@@ -13,20 +84,10 @@ read_mnist_image_file <- function(filename) {
   con <- gzfile(filename, "rb")
   on.exit(close(con))
   n <- readBin(con, "integer", n = 4L, size = 4L, endian = "big")
-  if (n[[1L]] != 2051L) {
-    stop("Invalid magic number")
-  }
+  stopifnot(n[[1L]] == 2051L)
   n <- n[-1L]
   m <- prod(n)
   array(as.integer(readBin(con, raw(), n = prod(n))), rev(n))
-}
-
-load_mnist <- function(train) {
-  key <- if (train) "train" else "t10k"
-  if (!exists(key, cache)) {
-    cache[[key]] <- read_mnist(train)
-  }
-  cache[[key]]
 }
 
 read_mnist <- function(train = FALSE) {
@@ -61,21 +122,10 @@ has_images <- function() {
   all(FILENAMES %in% dir(cache_dir()))
 }
 
-download_mnist <- function() {
-  if (!has_images()) {
-    urls <- file.path(URL, FILENAMES)
-    path <- cache_dir()
-    dir.create(path, FALSE, TRUE)
-    for (f in FILENAMES) {
-      download_file(file.path(URL, f), file.path(path, f))
-    }
-  }
-}
-
-download_file <- function(url, dest) {
+download_file <- function(url, dest, ...) {
   tmp <- tempfile()
   on.exit(file.remove(tmp))
-  status <- download.file(url, tmp, mode = "wb")
+  status <- download.file(url, tmp, mode = "wb", ...)
   if (status != 0) {
     stop("Download failed with code ", status)
   }
