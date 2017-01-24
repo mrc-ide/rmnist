@@ -40,7 +40,7 @@ print.mnist_digit <- function(x, show_digit = FALSE, ...) {
   if (show_digit) {
     cat(paste0(format(x), "\n"))
   } else {
-    cat("  (use print(x, TRUE) to display the digit to the terminal")
+    cat("  (use print(x, TRUE) to display the digit to the terminal\n")
   }
   invisible(x)
 }
@@ -56,4 +56,11 @@ format.mnist_digit <- function(x, ...) {
 ##' @export
 as.integer.mnist_digit <- function(x, ...) {
   attr(x, "label")
+}
+
+##' @export
+plot.mnist_digit <- function(x, ...) {
+  ix <- 255 - x[, rev(seq_len(nrow(x))), drop = FALSE]
+  graphics::image(ix, col = gray(seq(0, 1, length.out = 256)), axes = FALSE)
+  graphics::box()
 }

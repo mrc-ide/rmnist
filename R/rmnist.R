@@ -24,6 +24,11 @@
 ##' @examples
 ##' mnist <- load_mnist(FALSE)
 ##' mnist
+##'
+##' x <- mnist[[2]]
+##' x
+##' print(x, TRUE)
+##' plot(x)
 load_mnist <- function(train, download_if_missing = FALSE) {
   key <- if (train) "train" else "t10k"
   if (!exists(key, cache)) {

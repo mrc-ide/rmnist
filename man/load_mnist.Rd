@@ -32,5 +32,10 @@ as the processed images are cached within a session.
 \examples{
 mnist <- load_mnist(FALSE)
 mnist
+
+x <- mnist[[2]]
+x
+print(x, TRUE)
+plot(x)
 }
 
