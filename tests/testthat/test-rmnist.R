@@ -43,6 +43,12 @@ test_that("s3", {
   expect_equal(as.integer(digit), attr(digit, "label"))
 })
 
+test_that("training data set", {
+  d <- load_mnist(TRUE)
+  expect_equal(length(d), 60000)
+  expect_is(d, "mnist")
+})
+
 test_that("behaviour when missing", {
   oo <- options("rmnist.cache_dir" = tempfile())
   on.exit(options(oo))
