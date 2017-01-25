@@ -23,6 +23,7 @@
 ##'
 ##' @export
 ##' @examples
+##' \donttest{
 ##' mnist <- load_mnist(FALSE)
 ##' mnist
 ##'
@@ -30,6 +31,7 @@
 ##' x
 ##' print(x, TRUE)
 ##' plot(x)
+##' }
 load_mnist <- function(train = FALSE, download_if_missing = FALSE) {
   key <- if (train) "train" else "t10k"
   if (!exists(key, cache)) {

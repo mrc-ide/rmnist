@@ -31,6 +31,7 @@ larger of the two).  Subsequent loads will be much faster though,
 as the processed images are cached within a session.
 }
 \examples{
+\donttest{
 mnist <- load_mnist(FALSE)
 mnist
 
@@ -38,5 +39,6 @@ x <- mnist[[2]]
 x
 print(x, TRUE)
 plot(x)
+}
 }
 

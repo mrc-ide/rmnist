@@ -48,10 +48,3 @@ test_that("training data set", {
   expect_equal(length(d), 60000)
   expect_is(d, "mnist")
 })
-
-test_that("behaviour when missing", {
-  skip_on_travis()
-  oo <- options("rmnist.cache_dir" = tempfile())
-  on.exit(options(oo))
-  expect_error(load_mnist(FALSE), "Please run download_mnist")
-})

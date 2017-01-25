@@ -1,3 +1,4 @@
+##' @importFrom utils head download.file
 ##' @export
 `[.mnist` <- function(x, i, ...) {
   ret <- list(label = x$label[i],
@@ -61,7 +62,8 @@ as.integer.mnist_digit <- function(x, ...) {
 ##' @export
 plot.mnist_digit <- function(x, ..., box = TRUE) {
   ix <- 255 - x[, rev(seq_len(nrow(x))), drop = FALSE]
-  graphics::image(ix, col = gray(seq(0, 1, length.out = 256)), axes = FALSE)
+  col <- grDevices::gray(seq(0, 1, length.out = 256))
+  graphics::image(ix, col = col, axes = FALSE)
   if (box) {
     graphics::box()
   }
