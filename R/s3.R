@@ -59,8 +59,10 @@ as.integer.mnist_digit <- function(x, ...) {
 }
 
 ##' @export
-plot.mnist_digit <- function(x, ...) {
+plot.mnist_digit <- function(x, ..., box = TRUE) {
   ix <- 255 - x[, rev(seq_len(nrow(x))), drop = FALSE]
   graphics::image(ix, col = gray(seq(0, 1, length.out = 256)), axes = FALSE)
-  graphics::box()
+  if (box) {
+    graphics::box()
+  }
 }
