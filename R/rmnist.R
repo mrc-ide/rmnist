@@ -84,7 +84,8 @@ download_mnist <- function(verbose = FALSE, quiet = FALSE, cache_dir = NULL) {
       download_file(file.path(URL, f), file.path(path, f), quiet = quiet)
     }
   } else if (verbose) {
-    message(sprintf("MNIST images already found at '%s'", rmnist_cache_dir()))
+    message(sprintf("MNIST images already found at '%s'",
+                    rmnist_cache_dir(cache_dir)))
   }
 }
 
