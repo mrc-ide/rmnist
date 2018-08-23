@@ -4,7 +4,7 @@
 \alias{load_mnist}
 \title{Load the MNIST images}
 \usage{
-load_mnist(train = FALSE, download_if_missing = FALSE)
+load_mnist(train = FALSE, download_if_missing = FALSE, cache_dir = NULL)
 }
 \arguments{
 \item{train}{Logical, indicating if the training data set should
@@ -15,6 +15,10 @@ default, the smaller file is loaded.}
 should be downloaded if not present.  See
 \code{\link{download_mnist}} for details about the downloading
 and where files will be stored.}
+
+\item{cache_dir}{Path to look for the rmnist cache.  If not given (or
+given as \code{NULL}) then a cache based on \code{rappdirs} is
+used (see \code{\link{download_mnist}}).}
 }
 \description{
 Load the MNIST images.  There are two sets "train" and "t10k"; the
@@ -41,4 +45,3 @@ print(x, TRUE)
 plot(x)
 }
 }
-

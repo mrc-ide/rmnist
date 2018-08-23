@@ -4,13 +4,16 @@
 \alias{download_mnist}
 \title{Download the MNIST images}
 \usage{
-download_mnist(verbose = FALSE, quiet = FALSE)
+download_mnist(verbose = FALSE, quiet = FALSE, cache_dir = NULL)
 }
 \arguments{
 \item{verbose}{Print a message even if the images are already found}
 
 \item{quiet}{Passed through to \code{download.file} to suppress
 the download progress bar.}
+
+\item{cache_dir}{Optional path to download the files to.  If not
+given, then}
 }
 \description{
 Download the MNIST images.  Because these about 11MB they do not
@@ -21,8 +24,7 @@ The downloaded images will be stored on your system by default at
 the directory given by \code{rappdirs::user_cache_dir("rmnist")}.
 Alternatively, you can specify your own location for the images by
 setting the option \code{rmnist.cache_dir} (e.g.,
-\code{rmnist.cache_dir = tempfile()}).  To see what value will be
-used, you can run the (unexported) function
-\code{rmnist:::cache_dir()}.
+\code{rmnist.cache_dir = tempfile()}), or by specifying the
+\code{cache_dir} argument.  To see what value will be used, you
+can run the (unexported) function \code{rmnist:::rmnist_cache_dir()}.
 }
-

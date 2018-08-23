@@ -21,6 +21,10 @@
 ##'   \code{\link{download_mnist}} for details about the downloading
 ##'   and where files will be stored.
 ##'
+##' @param cache_dir Path to look for the rmnist cache.  If not given (or
+##'   given as \code{NULL}) then a cache based on \code{rappdirs} is
+##'   used (see \code{\link{download_mnist}}).
+##'
 ##' @export
 ##' @examples
 ##' \donttest{
@@ -32,17 +36,18 @@
 ##' print(x, TRUE)
 ##' plot(x)
 ##' }
-load_mnist <- function(train = FALSE, download_if_missing = FALSE) {
+load_mnist <- function(train = FALSE, download_if_missing = FALSE,
+                       cache_dir = NULL) {
   key <- if (train) "train" else "t10k"
   if (!exists(key, cache)) {
-    if (!has_images()) {
+    if (!has_images(cache_dir)) {
       if (download_if_missing) {
-        download_mnist()
+        download_mnist(cache_dir = cache_dir)
       } else {
         stop("Please run download_mnist() to download files first")
       }
     }
-    cache[[key]] <- read_mnist(train)
+    cache[[key]] <- read_mnist(train, cache_dir)
   }
   cache[[key]]
 }
@@ -54,9 +59,9 @@ load_mnist <- function(train = FALSE, download_if_missing = FALSE) {
 ##' the directory given by \code{rappdirs::user_cache_dir("rmnist")}.
 ##' Alternatively, you can specify your own location for the images by
 ##' setting the option \code{rmnist.cache_dir} (e.g.,
-##' \code{rmnist.cache_dir = tempfile()}).  To see what value will be
-##' used, you can run the (unexported) function
-##' \code{rmnist:::cache_dir()}.
+##' \code{rmnist.cache_dir = tempfile()}), or by specifying the
+##' \code{cache_dir} argument.  To see what value will be used, you
+##' can run the (unexported) function \code{rmnist:::rmnist_cache_dir()}.
 ##'
 ##' @title Download the MNIST images
 ##'
@@ -65,18 +70,21 @@ load_mnist <- function(train = FALSE, download_if_missing = FALSE) {
 ##' @param quiet Passed through to \code{download.file} to suppress
 ##'   the download progress bar.
 ##'
+##' @param cache_dir Optional path to download the files to.  If not
+##'   given, then
+##'
 ##' @export
-download_mnist <- function(verbose = FALSE, quiet = FALSE) {
-  if (!has_images()) {
+download_mnist <- function(verbose = FALSE, quiet = FALSE, cache_dir = NULL) {
+  if (!has_images(cache_dir)) {
     urls <- file.path(URL, FILENAMES)
-    path <- cache_dir()
+    path <- rmnist_cache_dir(cache_dir)
     dir.create(path, FALSE, TRUE)
     message("Downloading MNIST images to ", path)
     for (f in FILENAMES) {
       download_file(file.path(URL, f), file.path(path, f), quiet = quiet)
     }
   } else if (verbose) {
-    message(sprintf("MNIST images already found at '%s'", cache_dir()))
+    message(sprintf("MNIST images already found at '%s'", rmnist_cache_dir()))
   }
 }
 
@@ -98,8 +106,8 @@ read_mnist_image_file <- function(filename) {
   array(as.integer(readBin(con, raw(), n = prod(n))), rev(n))
 }
 
-read_mnist <- function(train = FALSE) {
-  path <- cache_dir()
+read_mnist <- function(train, cache_dir) {
+  path <- rmnist_cache_dir(cache_dir)
   if (train) {
     f_labels <- "train-labels-idx1-ubyte.gz"
     f_images <- "train-images-idx3-ubyte.gz"
@@ -122,12 +130,16 @@ FILENAMES <- c("train-images-idx3-ubyte.gz",
                "t10k-labels-idx1-ubyte.gz")
 URL <- "http://yann.lecun.com/exdb/mnist"
 
-cache_dir <- function() {
-  getOption("rmnist.cache_dir", rappdirs::user_cache_dir("rmnist"))
+rmnist_cache_dir <- function(cache_dir = NULL) {
+  if (is.null(cache_dir)) {
+    getOption("rmnist.cache_dir", rappdirs::user_cache_dir("rmnist"))
+  } else {
+    cache_dir
+  }
 }
 
-has_images <- function() {
-  all(FILENAMES %in% dir(cache_dir()))
+has_images <- function(cache_dir) {
+  all(FILENAMES %in% dir(rmnist_cache_dir(cache_dir)))
 }
 
 download_file <- function(url, dest, ...) {

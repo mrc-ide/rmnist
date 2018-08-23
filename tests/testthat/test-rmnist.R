@@ -1,7 +1,7 @@
 context("rmnist")
 
 test_that("fetch", {
-  if (!has_images()) {
+  if (!has_images(NULL)) {
     expect_message(download_mnist(), "Downloading MNIST")
   }
   expect_silent(download_mnist())
