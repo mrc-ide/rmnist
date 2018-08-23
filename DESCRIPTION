@@ -2,7 +2,7 @@ Package: rmnist
 Title: Interface With 'MNIST' Collection of Handwritten Digits
 Author: Rich FitzJohn
 Maintainer: Rich FitzJohn <rich.fitzjohn@gmail.com>
-Version: 0.0.1
+Version: 0.0.2
 Description: Interface with the 'MNIST' collection of handwritten digits.
 Depends:
     R (>= 3.2.3)
