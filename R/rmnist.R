@@ -1,8 +1,8 @@
 ##' Load the MNIST images.  There are two sets "train" and "t10k"; the
-##' \code{train} argument switches between these.  The actual images
+##' `train` argument switches between these.  The actual images
 ##' are not shipped with the package as they are ~11MB.  Instead these
-##' can be downloaded with \code{download_mnist} or by passing
-##' \code{download_if_missing = TRUE} to this function.
+##' can be downloaded with `download_mnist` or by passing
+##' `download_if_missing = TRUE` to this function.
 ##'
 ##' The first time within a session that the images are loaded, the
 ##' loading process may be slow as the files are read from disk (this
@@ -13,17 +13,17 @@
 ##' @title Load the MNIST images
 ##'
 ##' @param train Logical, indicating if the training data set should
-##'   be loaded.  If \code{FALSE} then the "t10k" set is loaded.  By
+##'   be loaded.  If `FALSE` then the "t10k" set is loaded.  By
 ##'   default, the smaller file is loaded.
 ##'
 ##' @param download_if_missing Logical, indicating if the images
 ##'   should be downloaded if not present.  See
-##'   \code{\link{download_mnist}} for details about the downloading
+##'   [download_mnist()] for details about the downloading
 ##'   and where files will be stored.
 ##'
 ##' @param cache_dir Path to look for the rmnist cache.  If not given (or
-##'   given as \code{NULL}) then a cache based on \code{rappdirs} is
-##'   used (see \code{\link{download_mnist}}).
+##'   given as `NULL`) then a cache based on `rappdirs` is
+##'   used (see [download_mnist()]).
 ##'
 ##' @export
 ##' @examples
@@ -56,18 +56,18 @@ load_mnist <- function(train = FALSE, download_if_missing = FALSE,
 ##' ship with the package, but are downloaded as needed.
 ##'
 ##' The downloaded images will be stored on your system by default at
-##' the directory given by \code{rappdirs::user_cache_dir("rmnist")}.
+##' the directory given by `rappdirs::user_cache_dir("rmnist")`.
 ##' Alternatively, you can specify your own location for the images by
-##' setting the option \code{rmnist.cache_dir} (e.g.,
-##' \code{rmnist.cache_dir = tempfile()}), or by specifying the
-##' \code{cache_dir} argument.  To see what value will be used, you
-##' can run the (unexported) function \code{rmnist:::rmnist_cache_dir()}.
+##' setting the option `rmnist.cache_dir` (e.g.,
+##' `rmnist.cache_dir = tempfile()`), or by specifying the
+##' `cache_dir` argument.  To see what value will be used, you
+##' can run the (unexported) function `rmnist:::rmnist_cache_dir()`.
 ##'
 ##' @title Download the MNIST images
 ##'
 ##' @param verbose Print a message even if the images are already found
 ##'
-##' @param quiet Passed through to \code{download.file} to suppress
+##' @param quiet Passed through to `download.file` to suppress
 ##'   the download progress bar.
 ##'
 ##' @param cache_dir Optional path to download the files to.  If not
