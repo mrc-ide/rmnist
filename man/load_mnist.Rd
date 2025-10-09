@@ -13,12 +13,12 @@ default, the smaller file is loaded.}
 
 \item{download_if_missing}{Logical, indicating if the images
 should be downloaded if not present.  See
-\code{\link{download_mnist}} for details about the downloading
+\code{\link[=download_mnist]{download_mnist()}} for details about the downloading
 and where files will be stored.}
 
 \item{cache_dir}{Path to look for the rmnist cache.  If not given (or
 given as \code{NULL}) then a cache based on \code{rappdirs} is
-used (see \code{\link{download_mnist}}).}
+used (see \code{\link[=download_mnist]{download_mnist()}}).}
 }
 \description{
 Load the MNIST images.  There are two sets "train" and "t10k"; the
@@ -35,7 +35,7 @@ larger of the two).  Subsequent loads will be much faster though,
 as the processed images are cached within a session.
 }
 \examples{
-\donttest{
+\dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 mnist <- load_mnist(FALSE)
 mnist
 
@@ -43,5 +43,5 @@ x <- mnist[[2]]
 x
 print(x, TRUE)
 plot(x)
-}
+\dontshow{\}) # examplesIf}
 }
