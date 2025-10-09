@@ -129,7 +129,7 @@ FILENAMES <- c("train-images-idx3-ubyte.gz",
                "train-labels-idx1-ubyte.gz",
                "t10k-images-idx3-ubyte.gz",
                "t10k-labels-idx1-ubyte.gz")
-URL <- "http://yann.lecun.com/exdb/mnist"
+URL <- "https://raw.githubusercontent.com/fgnt/mnist/master"
 
 rmnist_cache_dir <- function(cache_dir = NULL) {
   if (is.null(cache_dir)) {
