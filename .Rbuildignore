@@ -3,3 +3,4 @@
 ^Makefile$
 ^tests/testthat/cache$
 ^\.travis\.yml$
+^\.github$

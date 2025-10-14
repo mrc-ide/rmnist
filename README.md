@@ -1,9 +1,12 @@
 # rmnist
 
-[![Project Status: WIP - Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
-[![Travis-CI Build Status](https://travis-ci.org/richfitz/rmnist.svg?branch=master)](https://travis-ci.org/richfitz/rmnist)
+<!-- badges: start -->
+[![Project Status: WIP - Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![R-CMD-check](https://github.com/mrc-ide/rmnist/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mrc-ide/rmnist/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/mrc-ide/rmnist/graph/badge.svg)](https://app.codecov.io/gh/mrc-ide/rmnist)
+<!-- badges: end -->
 
-R interface to the [MNIST database of handwritten digits](http://yann.lecun.com/exdb/mnist/)
+R interface to the [MNIST database of handwritten digits](https://en.wikipedia.org/wiki/MNIST_database)
 
 At present this package is a very basic interface that covers loading the data and caching the (fairly large) files that the database contains.  Note that the images are not directly included in the package as they are about 11MB.
 
